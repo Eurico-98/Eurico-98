@@ -1,0 +1,49 @@
+# Download base image ubuntu latest and intermediate to safely clone repos with my secret ssh key
+FROM ubuntu:latest as intermediate
+
+# Update Ubuntu Software repository
+RUN apt-get update
+
+# get GMTSAR_SBAS_AUTOMATION FROM GIT with my git account Eurico-98
+RUN apt-get install -y git
+
+# add credentials on build
+RUN mkdir /root/.ssh/
+
+# Copy over private key, and set permissions
+ADD id_rsa /root/.ssh/id_rsa
+
+# make sure my domain is accepted
+RUN touch /root/.ssh/known_hosts
+RUN ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
+
+RUN git clone git@github.com:SteffanDavies/GMTSAR_SBAS_AUTOMATION.git
+
+# second image to avoid leaking ssh key
+FROM ubuntu:latest
+
+# copy the repository form the previous image
+COPY --from=intermediate /git@github.com:SteffanDavies/GMTSAR_SBAS_AUTOMATION.git /srv/GMTSAR_SBAS
+
+# change to root user
+USER root
+
+# install ubuntu packages
+RUN apt-get install curl && \
+    subversion \
+    ghostscript \
+    build-essential \
+    cmake \
+    libnetcdf-dev \
+    libfftw3-dev \
+    libpcre3-dev \
+    libgdal-dev \
+    gdal-bin
+
+
+# get 
+
+    # fazer o download dos git que o steffan deu e depois ligar as variaveis do automation a partir do yaml
+
+# volume to persist files created inside container
+#VOLUME ["/Software",]

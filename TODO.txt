@@ -1,0 +1,114 @@
+asf_data - sacar imagens: 
+selecionar zona selecionar a orbita que quero e depois a frame data de inicio e fim - file type SLC satelite SA - ascending beam mode IW
+
+no GPC para sacar essas iamgens fazer:
+#python3
+#import asf_search as asf
+#import os
+#session = asf.ASFSession().auth_with_creds('ej_98', 'atadHtrae_@_192837')
+#wkt='aqui meter isto: POLYGON((-8.4636 40.1656,-8.3763 40.1656,-8.3763 40.2376,-8.4636 40.2376,-8.4636 40.1656))'
+#results = asf.geo_search(platform=[asf.PLATFORM.SENTINEL1], intersectsWith=wkt, processingLevel='SLC', start='2020-06-01', end='2022-07-01', relativeOrbit='', asfFrame='')
+#results.download(path=os.getcwd(), session=session, processes=(meter 8 pq é em funcao dos cpus))
+
+----------- no terminal do GPC comandos:
+
+para iniciar o screen:
+screen -l
+
+ctrl+esc para quand estiver a correr entrar em modo edição
+é sempre ctrl A:
+c -> cria novo terminal
+n -> next terminal
+p -> previous terminal
+k -> kill
+\ -> matar todos os terminais
+" -> list all terminals despois esc para voltar
+
+Ctrl-A | for a vertical split (one shell on the left, one shell on the right)
+
+depois tenho que criar um terminal com ctrl+a c ou entao fazer o split e depois entrar no modo comandos do split com
+ctrl+a :  e escrever screen
+para mudar de janelas é ctrl+a Tab
+para dar resize é: crtl+a : depois escrever resize
+
+Ctrl-A S for a horizontal split (one shell at the top, one shell at the bottom)
+Ctrl-A Tab to make the other shell active.
+Ctrl-A ? for help.
+
+
+comandos para monitorizar cpu usage
+tops
+
+monitorizar ssd usage
+iotops
+
+NOTAS: se quiser reiniciar o processamento ir a pasta:
+raw(~)/ssdarray/sbas/ e eliminar o processing e depois ir para
+~/software/GMTSAR_SBAS_AUTOMATION/ e correr o automation.sh que ele gera o processing novamente
+
+--------------------------------------------------------- TODO ----------------------------------------------------
+
+------------- ver pq e que o automation so corre copiando e colando linha a linha
+tenho que testar
+
+-------------------------------------- standerdizar final scv
+turquia_dsc_138_458_snaphu0001_01ampmask_detrend_atm3_smooth1.csv
+Ainda é para acrescentar algumas coisas
+mas é o seguinte
+Nome do projeto
+Direção
+Orbita
+Frame
+Valor do snaphu
+Valor do ampmask/corrmask
+nodetrend/detrend
+Nr de passagens de correção atm (propriedade do sbas_parallel
+Fator de smoothing (propriedade do sbas_parallel)
+A seguir a frame e antes do valor de snaphu ainda é para acrescentar região min max x e y do unwrapping do snaphu
+
+----------------------------------- outro problema:
+ver pq e que ele quebra quando se corre o first_time_setup ele quebra na linha numa destas linhas:
+sudo usermod -aG docker $USER
+newgrp docker
+
+
+
+
+
+
+
+
+-------------------------------------------------------------- DONE but for reference
+-------------------------------- no divide data.iniciar
+
+SE HOUVER UM TOTAL DE LINHAS MAIOR QUE O NUMERO DE subprocessos:
+
+nao sobram cpus nem linhas caso 4
+12 cpus / 3 cpus = 4 sub processos cada um com 3 cpus
+data.in com 41 linhas menos a do master da 40 linhas
+40 linhas / 4 sub processos = 10 linhas para cada sub processo
+
+nao sobram cpus mas sobram linhas casos 5 e 6
+12 cpus / 3 cpus = 4 sub processos cada um com 3 cpus
+data.in com 48 linhas menos a do master da 47 linhas
+47 linhas / 4 sub processos = 11 + 3 
+caso 5 - 11 linhas para 3 sub processos imprime este 3 vezes
+caso 6 - 14 para o ultimo sub processo este 1 vez
+
+
+sobram cpus e sobram linhas casos 2 e 3
+16 cpus / 3 = 5 cpus + 1 cpu
+6 subprocessos pq como sobram linhas eu nao descarto os cpus de sobra
+47 linhas / 5 sub proceessos = 9 + 2 
+caso 2 - 9 linhas em 5 sub processos entra aqui 5 vezes
+caso 3 - 11 linhas no ultimo subprosseo entra aqui 1 vez
+
+sobram cpus e nao sobram linhas casos 1
+16 cpus / 3 = 5 cpus + 1 cpu
+5 subprocessos pq como nao sobram linhas eu descarto os cpus de sobra
+45 linhas / 5 sub proceessos = 9 
+caso 1 - 9 linhas em 5 sub processos entra aqui 5 vezes
+
+------------------------------------------------- SE HOUVER MAIS subprocessos QUE LINHAS:
+
+ele mete uma linha em cada sub file

@@ -1,0 +1,448 @@
+whereis mostra o path de um ficheiro ou folder
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+ln:
+The ln command is used to create links to files or directories
+comando para por no vsc visivel na estrutura do projeto uma pasta que esteja no container criando um link
+ln -s (localizacao origina da pasta) (localizacao onde quero ter a pasta visivel)
+
+---------------------------------------------------------------------------------------------------------------------
+
+grep: 
+Grep is a Linux / Unix command-line tool used to search for a string of characters in a specified file. 
+The text search pattern is called a regular expression. When it finds a match, it prints the line with the result. 
+The grep command is handy when searching through large log files
+
+- Search any line that contains the word in filename on Linux:
+grep 'word' filename
+- Perform a case-insensitive search for the word ‘bar’ in Linux and Unix:
+grep -i 'bar' file1
+- Look for all files in the current directory and in all of its subdirectories in Linux for the word ‘httpd’:
+grep -R 'httpd' .
+- Search and display the total number of times that the string ‘nixcraft’ appears in a file named frontpage.md:
+grep -c 'nixcraft' frontpage.md
+
+---------------------------------------------------------------------------------------------------------------------
+
+awk:
+Awk is a utility that enables a programmer to write tiny but effective programs in the form of statements that 
+define text patterns that are to be searched for in each line of a document and the action that is to be taken 
+when a match is found within a line. Awk is mostly used for pattern scanning and processing.
+
+awk options 'selection _criteria {action }' input-file > output-file
+
+-f program-file : Reads the AWK program source from the file 
+                  program-file, instead of from the 
+                  first command line argument.
+-F fs            : Use fs for the input field separator
+
+Default behavior of Awk: By default Awk prints every line of data from the specified file.  
+
+    $ awk '{print}' employee.txt
+
+Print the lines which match the given pattern. 
+
+    $ awk '/manager/ {print}' employee.txt 
+
+Splitting a Line Into Fields : For each record i.e line, the awk command splits the record delimited
+by whitespace character by default and stores it in the     $n variables. If the line has 4 words, 
+it will be stored in     $1,     $2,     $3 and     $4 respectively. Also,     $0 represents the whole line.  
+
+    $ awk '{print     $1,    $4}' employee.txt
+
+---------------------------------------------------------------------------------------------------------------------
+
+find:
+The find command is used to search and locate the list of files and directories based on conditions you specify 
+for files that match the arguments.
+
+    $ find [where to start searching from] [expression determines what to find] [-options] [what to find]
+
+Options :
+
+-exec CMD: The file being searched which meets the above criteria and returns 0 for as its exit status for successful command execution.
+-ok CMD : It works same as -exec except the user is prompted first.
+-inum N : Search for files with inode number ‘N’.
+-links N : Search for files with ‘N’ links.
+-name demo : Search for files that are specified by ‘demo’.
+-newer file : Search for files that were modified/created after ‘file’.
+-perm octal : Search for the file if permission is ‘octal’.
+-print : Display the path name of the files found by using the rest of the criteria.
+-empty : Search for empty files and directories.
+-size +N/-N : Search for files of ‘N’ blocks; ‘N’ followed by ‘c’can be used to measure size in characters; ‘+N’ means size > ‘N’ blocks and ‘-N’ means size < ‘N’ blocks.
+-user name : Search for files owned by user name or ID ‘name’.
+\(expr \) : True if ‘expr’ is true; used for grouping criteria combined with OR or AND.
+! expr : True if ‘expr’ is false.
+
+example:
+Search a file with specific name.
+    $ find ./GFG -name sample.txt 
+
+---------------------------------------------------------------------------------------------------------------------
+
+xargs:
+The xargs command builds and executes commands provided through the standard input. It takes the input and converts 
+it into a command argument for another command. This feature is particularly useful in file management, 
+where xargs is used in combination with rm , cp , mkdir , and other similar commands.
+
+command1 | xargs command2
+
+channel the output of cat todelete.txt to the rm command, through xargs.
+    $ cat todelete.txt | xargs rm
+
+-p: One of the most useful in my opinion, especially when starting to learn xargs, is -p. 
+Using this option will make xargs print a confirmation prompt with the action it’s going to take
+
+-I: The -I option is another widely used one. It allows you to get the output into a placeholder, and then you can do various things
+command1 | xargs -I % /bin/bash -c 'command2 %; command3 %'
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+export:
+The export command is a built-in utility of Linux Bash shell. It is used to ensure the environment variables and functions 
+to be passed to child processes. It does not affect the existing environment variable. Environment variables are set when 
+we open a new shell session.
+
+export [-f] [-n] [name[=value] ...] or export -p
+
+Example2:
+Display all exported variable on current shell
+To display all the exported environment variable of the current shell, execute the command with -p option as follows:
+    $ export -p 
+
+Example3: 
+Using export with functions
+To use a function with the export command, use the -f option. 
+If we do not use this option, it will be considered as a variable, not function.
+
+Syntax:
+
+    $ export -f function_name         We are exporting a function 'name' as follows:
+    $ name() { echo "Javatpoint";}    To export the above function, execute the command as follows:
+    $ export -f name                  Now, invoke the bash shell to execute the function:
+    $ bash                            To call the function, enter the function name:
+    $ name  
+
+---------------------------------------------------------------------------------------------------------------------
+
+tail:
+On Unix-like operating systems, the tail command reads a file, and outputs the last part of it (the "tail"). 
+The tail command can also monitor data streams and open files, displaying new information as it is written. 
+For example, it's a useful way to monitor the newest events in a system log in real time.
+
+tail [OPTION]... [FILE]...
+
+Option (short/long)     Explanation
+
+-n / --lines            Limit output to the last n lines/limit output to the lines following from line n
+-c / --bytes            Limit output to the last n bytes/limit output to the bytes following from byte n
+-q / --quiet, --silent  When using multiple files, suppress the output of the file names
+-v / --verbose          Force output of file names when used with multiple files
+--help                  View Help section for command
+--version               View version information of command
+
+---------------------------------------------------------------------------------------------------------------------
+
+tr:
+The tr command is a Linux command-line utility that translates or deletes characters from standard input ( stdin ) 
+and writes the result to standard output ( stdout ). Use tr to perform different text transformations, 
+including case conversion, squeezing or deleting characters, and basic text replacement.
+
+    $ tr [OPTION] SET1 [SET2]
+
+1. Convert lower case to upper case
+The following tr command is used to convert the lower case to upper case
+    $ tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+---------------------------------------------------------------------------------------------------------------------
+
+head:
+The Linux head command prints the first lines of one or more files (or piped data) to standard output. 
+By default, it shows the first 10 lines. However, head provides several arguments you can use to modify the output.
+
+head [OPTION]... [FILE]...
+
+In its simplest form, when used without any option, the head command displays the first ten lines.
+    $ head filename.txt
+
+Display a Specific Number of Lines
+Use the -n (--lines) option followed by an integer specifying the number of lines to be shown:
+
+    $ head -n <NUMBER> filename.txt
+
+Display a Specific Number of Bytes
+The -c (--bytes) option allows to print a specific number of bytes:
+
+    $ head -c <NUMBER> filename.txt
+
+---------------------------------------------------------------------------------------------------------------------
+
+sed:
+The sed command, short for stream editor, performs editing operations on text coming from standard input or a file. 
+sed edits line-by-line and in a non-interactive way.
+This means that you make all of the editing decisions as you are calling the command, and sed executes the directions automatically. 
+sed {OPTIONS} filename
+
+sed OPTIONS... [SCRIPT] [INPUTFILE...] 
+
+Replacing or substituting string : Sed command is mostly used to replace the text in a file. 
+The below simple sed command replaces the word “unix” with “linux” in the file.
+
+    $ sed 's/unix/linux/' geekfile.txt
+
+Replacing the nth occurrence of a pattern in a line : Use the /1, /2 etc flags to replace the first,
+second occurrence of a pattern in a line. The below command replaces the second occurrence of the word “unix” with “linux” in a line.
+
+    $ sed 's/unix/linux/2' geekfile.txt
+
+Replacing all the occurrence of the pattern in a line : The substitute flag /g (global replacement) 
+specifies the sed command to replace all the occurrences of the string in the line.
+
+    $ sed 's/unix/linux/g' geekfile.txt
+
+Replacing from nth occurrence to all occurrences in a line : Use the combination of /1, /2 
+etc and /g to replace all the patterns from the nth occurrence of a pattern in a line. The following sed command replaces the third, fourth, fifth… “unix” word with “linux” word in a line.
+
+    $ sed 's/unix/linux/3g' geekfile.txt
+
+Parenthesize first character of each word : This sed example prints the first character of every word in parenthesis.
+
+$ echo "Welcome To The Geek Stuff" | sed 's/\(\b[A-Z]\)/\(\1\)/g'
+
+Replacing string on a specific line number : You can restrict the sed command to replace the string on a specific line number. An example is
+
+    $ sed '3 s/unix/linux/' geekfile.txt
+
+Duplicating the replaced line with /p flag : The /p print flag prints the replaced line twice on the terminal. 
+If a line does not have the search pattern and is not replaced, then the /p prints that line only once.
+    
+    $ sed 's/unix/linux/p' geekfile.txt
+
+Printing only the replaced lines : Use the -n option along with the /p print flag to display only the replaced lines. 
+Here the -n option suppresses the duplicate rows generated by the /p flag and prints the replaced lines only one time.
+
+    $ sed -n 's/unix/linux/p' geekfile.txt
+
+Replacing string on a range of lines : You can specify a range of line numbers to the sed command for replacing a string.
+
+    $ sed '1,3 s/unix/linux/' geekfile.txt
+
+Deleting lines from a particular file : SED command can also be used for deleting lines from a particular file. SED command is used for performing deletion operation without even opening the file
+Examples:
+1. To Delete a particular line say n in this example
+
+Syntax: $ sed 'nd' filename.txt
+
+    $ sed '5d' filename.txt
+
+---------------------------------------------------------------------------------------------------------------------
+
+make:
+The purpose of the make utility is to determine automatically which pieces of a large program need to be recompiled, 
+and issue the commands to recompile them. you can use make with any programming language whose compiler can be run with a 
+shell command. In fact, make is not limited to programs.
+You can use it to describe any task where some files must be updated automatically from others whenever the others change.
+
+-b, -m	                These options are ignored, but included for compatibility with other versions of make.
+
+-B, --always-make	    Unconditionally make all targets.
+
+-C dir, --directory=dir	Change to directory dir before reading the makefiles or doing anything else. 
+                        If multiple -C options are specified, each is interpreted relative to the previous one: 
+                        -C / -C etc is equivalent to -C /etc. This is typically used with recursive invocations of make.
+
+-d	                    Print debugging information in addition to normal processing. The debugging information says 
+                        which files are being considered for remaking, which file-times are being compared and with what results, 
+                        which files actually need to be remade, which implicit rules are considered and that are applied; 
+                        everything interesting about how make decides what to do.
+
+--debug[=FLAGS]	        Print debugging information in addition to normal processing. If the FLAGS are omitted, then the behavior 
+                        is the same as if -d was specified. FLAGS may be a for all debugging output (same as using -d), b for 
+                        basic debugging, v for more verbose basic debugging, i for showing implicit rules, j for details 
+                        on invocation of commands, and m for debugging while remaking makefiles.
+
+-e,                     Give variables taken from the environment precedence over variables from makefiles.
+--environment-overrides	    
+
+-f file, --file=file,   Use file as a makefile.
+--makefile=file	
+
+-i, --ignore-errors	    Ignore all errors in commands executed to remake files.
+
+-I dir,                 Specifies a directory dir to search for included makefiles. If several -I options are used to specify 
+--include-dir=dir       several directories, the directories are searched in the order specified. 
+                        Unlike the arguments to other flags of make, directories given with -I flags may come 
+                        directly after the flag: -Idir is allowed, as well as -I dir. This syntax is allowed for 
+                        compatibility with the C preprocessor's -I flag.
+
+
+-j [jobs], --jobs[=jobs]	Specifies the number of jobs (commands) to run simultaneously. If there is more than one -j option, 
+                            the last one is effective. If the -j option is given without an argument, make will not limit 
+                            the number of jobs that can run simultaneously.
+
+-k, --keep-going	    Continue as much as possible after an error. While the target that failed (and those that depend on it) 
+                        cannot be remade, the other dependencies of these targets can be processed all the same.
+
+-l [load],
+
+--load-average[=load]	Specifies that no new jobs (commands) should be started if there are others jobs running 
+                        and the load average is at least load (a floating-point number). With no argument, removes a previous load limit.
+
+-L,
+--check-symlink-times	Use whichever is the latest modification time between symlinks and target.
+
+-n, --just-print,       Print the commands that would be executed, but do not execute them.
+--dry-run, --recon	
+
+-o file, --old-file=file,   Do not remake the file file even if it is older than its dependencies, and do not remake anything 
+--assume-old=file           on account of changes in file. Essentially the file is treated as very old and its rules are ignored.
+
+-p, --print-data-base	Print the database (rules and variable values) that results from reading the makefiles; 
+                        then execute as usual or as otherwise specified. This also prints the version information 
+                        given by the -v switch (see below). To print the database without trying to remake any files, 
+                        use make -p -f/dev/null.
+
+-q, --question	        "Question mode." Do not run any commands, or print anything; just return an exit status 
+                        that is zero if the specified targets are already up to date, nonzero otherwise.
+
+-r, --no-builtin-rules	Eliminate use of the built-in implicit rules. Also, clear out the default list of suffixes for suffix rules.
+
+-R, --no-builtin-variables	Don't define any built-in variables.
+
+-s, --silent, --quiet	Silent operation; do not print the commands as they are executed.
+
+-S, --no-keep-going,
+--stop	                Cancel the effect of the -k option. This is never necessary except in a recursive make where -k might be 
+                        inherited from the top-level make via MAKEFLAGS or if you set -k in MAKEFLAGS in your environment.
+
+-t, --touch	Touch files (mark them up to date without really changing them) instead of running their commands. 
+                        This is used to pretend that the commands were done, to fool future invocations of make.
+
+-v, --version	        Print the version of make; also a Copyright, a list of authors and a notice that there is no warranty.
+
+-w, --print-directory	Print a message containing the working directory before and after other processing. 
+                        This may be useful for tracking down errors from complicated nests of recursive make commands.
+
+--no-print-directory	Turn off -w, even if it was turned on implicitly.
+
+-W file, --what-if=file,
+--new-file=file,
+--assume-new=file	    Pretend that the target file has just been modified. When used with the -n flag, 
+                        this shows you what would happen if you were to modify that file. Without -n, it is 
+                        almost the same as running a touch command on the given file before running make, except that the 
+                        modification time is changed only internally within make.
+
+--warn-undefined-variables	Warn when an undefined variable is referenced.
+
+---------------------------------------------------------------------------------------------------------------------
+
+pipe:
+Pipe is used to combine two or more commands, and in this, the output of one command acts as input to another command, 
+and this command's output may act as input to the next command and so on. It can also be visualized as a temporary 
+connection between two or more commands/ programs/ processes.
+
+---------------------------------------------------------------------------------------------------------------------
+
+tee:
+The tee command, used with a pipe, reads standard input, then writes the output of a program to standard 
+output and simultaneously copies it into the specified file or files. Use the tee command to view your 
+output immediately and at the same time, store it for future use.
+
+[command] | tee [options] [filename]
+
+[command] | tee [options] [filename1] [filename2]...
+
+[command] | tee [options] [filename] >/dev/null
+
+[command] | tee [options] [filename] | [command]
+
+To enable tee to exit properly even after the previous command has been interrupted, add the argument -i (or --ignore-interrupts):
+
+[command] | tee -i [filename]
+
+---------------------------------------------------------------------------------------------------------------------
+
+chown:
+The chown command changes user ownership of a file, directory, or link in Linux. Every file is associated with an 
+owning user or group. It is critical to configure file and folder permissions properly.
+
+chown [OPTIONS] USER[:GROUP] FILE(s)
+
+USER is the user name or the user ID (UID) of the new owner. GROUP is the name of the new group or the group ID (GID). 
+FILE(s) is the name of one or more files, directories or links. Numeric IDs should be prefixed with the + symbol.
+
+
+USER - If only the user is specified, the specified user will become the owner of the given files, the group ownership is not changed.
+
+
+USER: - When the username is followed by a colon :, and the group name is not given, the user will become the owner of the 
+files, and the files group ownership is changed to user’s login group.
+
+
+USER:GROUP - If both the user and the group are specified (with no space betwen them), the user ownership of the files is 
+changed to the given user and the group ownership is changed to the given group.
+
+
+:GROUP - If the User is omitted and the group is prefixed with a colon :, only the group ownership of the files is changed 
+to the given group.
+
+
+: If only a colon : is given, without specifying the user and the group, no change is made.
+
+---------------------------------------------------------------------------------------------------------------------
+
+chmod:
+The chmod (short for change mode) command is used to manage file system access permissions on Unix and Unix-like systems. 
+There are three basic file system permissions, or modes, to files and directories:
+
+    chmod +rwx filename to add permissions.
+    chmod -rwx directoryname to remove permissions.
+    chmod +x filename to allow executable permissions.
+    chmod -wx filename to take out write and executable permissions.
+
+The command for changing directory permissions for group owners is similar, but add a “g” for group or “o” for users:
+
+    chmod g+w filename
+    chmod g-wx filename
+    chmod o+w filename
+    chmod o-rwx foldername
+
+
+By issuing these commands, you can change groups of files and directories in Linux. 
+
+    chgrp groupname filename
+    chgrp groupname foldername
+
+Another helpful command is changing ownerships of files and directories in Linux:
+
+    chown name filename
+    chown name foldername
+
+You may need to know how to change permissions in numeric code in Linux, so to do this you use numbers instead of “r”, “w”, or “x”.
+
+0 = No Permission
+1 = Execute
+2 = Write
+4 = Read
+
+
+0 = ---
+1 = --x
+2 = -w-
+3 = -wx
+4 = r-
+5 = r-x
+6 = rw-
+7 = rwx
+
+---------------------------------------------------------------------------------------------------------------------
+
+dd:
+In the venerable Unix command dd, the disk/data duplicator (or, sometimes, disk destroyer) allows us to copy raw data 
+from one source to another. It's not used to copy individual files like cp. Instead, it lets us read from and write to
+block devices — for example, physical hard drives.
+
+# dd if=/dev/sda of=/dev/sdb

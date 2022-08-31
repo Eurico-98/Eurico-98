@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  ubuntu:
+    build:
+     context: .
+     dockerfile: Dockerfile
+     args:
+      PAT: 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
+
+    #environment:
+      #vairaveis do automation.sh
+    
+    #ports:
+     # - 2181:2181
+      #- 9092:9092
+    
+    #volumes:
+     # - ..:/Software
+    
